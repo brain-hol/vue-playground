@@ -1,8 +1,11 @@
 export function bigintToBase64Url(bigint: BigInt): string {
     // Convert BigInt to a byte array (Uint8Array)
     const bytes: number[] = []
+    // @ts-expect-error This seems to work
     while (bigint > 0) {
+        // @ts-expect-error This seems to work
         bytes.push(Number(bigint & BigInt(255)))
+        // @ts-expect-error This seems to work
         bigint >>= BigInt(8)
     }
 
@@ -69,4 +72,53 @@ function base64UrlToArrayBuffer(base64Url: string): ArrayBuffer {
         bytes[i] = binaryString.charCodeAt(i)
     }
     return bytes.buffer
+}
+
+export function stringToBigInt(str: string) {
+    if (!str) {
+        return 0n
+    }
+    return BigInt(
+        str
+            .split('')
+            .map((char) => char.charCodeAt(0))
+            .map((num) => String(num).padStart(3, '0'))
+            .join(''),
+    )
+}
+
+export function bigIntToString(num: bigint) {
+    const str = bigIntStringRep(num)
+    const chars = str.match(/.{3}/g)
+    return chars!.map((val) => String.fromCharCode(parseInt(val))).join('')
+}
+
+export function bigIntStringRep(num: bigint) {
+    let str = String(num)
+    const needed = 3 - (str.length % 3)
+    if (needed === 2) {
+        str = '00' + str
+    }
+    if (needed === 1) {
+        str = '0' + str
+    }
+    return str
+}
+
+export function modExp(base: bigint, exp: bigint, mod: bigint): bigint {
+    let result: bigint = 1n // Initialize result
+    base = base % mod // Handle base case where base is greater than mod
+
+    while (exp > 0n) {
+        // If exp is odd, multiply the current base to result
+        if (exp % 2n === 1n) {
+            result = (result * base) % mod
+        }
+
+        // Now exp must be even
+        base = (base * base) % mod // Square the base
+        exp = exp / 2n // Divide the exponent by 2
+    }
+
+    return result
 }
