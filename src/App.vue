@@ -3,8 +3,6 @@ import { computed, ref, watch } from 'vue'
 import { base64UrlToBigint, bigIntToString, modExp, stringToBigInt } from './lib'
 import BField from './BField.vue'
 import BOutput from './BOutput.vue'
-import BOutputBlock from './BOutputBlock.vue'
-import BFieldBlock from './BFieldBlock.vue'
 
 const eBase64 = ref('AQAB')
 const e = computed(() => base64UrlToBigint(eBase64.value))
@@ -46,17 +44,17 @@ const outMsg = computed(() => bigIntToString(decrypted.value))
     >
         <div class="grid gap-4 border-b border-zinc-200 p-12 xl:border-none dark:border-zinc-700">
             <h1 class="mb-3 font-serif text-5xl font-semibold">Client</h1>
-            <BOutputBlock label="Mod Space (N)" :value="nBase64" />
+            <BOutput label="Mod Space (N)" :value="nBase64" />
             <BOutput label="Public Key (E)" :value="eBase64" />
             <BField id="message" label="Message" v-model="message" />
             <BOutput label="As a Number" :value="inNum" />
-            <BOutputBlock label="Encrypted" :value="encrypted" />
+            <BOutput label="Encrypted" :value="encrypted" />
         </div>
         <div class="grid gap-4 p-12 xl:border-l xl:border-zinc-400 dark:xl:border-zinc-700">
             <h1 class="mb-3 font-serif text-5xl font-semibold">Server</h1>
             <BOutput label="Mod Space (N)" :value="nBase64" />
-            <BOutputBlock label="Private Key (D)" :value="dBase64" />
-            <BOutputBlock label="Encrypted" :value="encrypted" />
+            <BOutput label="Private Key (D)" :value="dBase64" />
+            <BOutput label="Encrypted" :value="encrypted" />
             <BOutput label="Decrypted" :value="decrypted" />
             <BOutput label="As a String" :value="outMsg" />
         </div>
