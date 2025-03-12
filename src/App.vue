@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { base64UrlToBigint } from './math'
-import HSection from './HSection.vue'
 import BField from './BField.vue'
-import VSection from './VSection.vue'
 import BOutput from './BOutput.vue'
 import BOutputBlock from './BOutputBlock.vue'
 
@@ -90,28 +88,20 @@ const outMsg = computed(() => bigIntToString(decrypted.value))
 </script>
 
 <template>
-    <HSection class="h-24">
-        <VSection />
-    </HSection>
-    <HSection>
-        <VSection class="grid xl:grid-cols-2">
-            <div
-                class="grid gap-4 border-b border-gray-200 p-12 xl:border-none dark:border-gray-800"
-            >
-                <h1 class="mb-3 font-serif text-5xl font-semibold">Client</h1>
-                <BField id="message" label="Message" v-model="message" />
-                <BOutput label="As a Number" :value="inNum" />
-                <BOutputBlock label="Encrypted" :value="encrypted" />
-            </div>
-            <div class="grid gap-4 p-12 xl:border-l xl:border-gray-200 dark:xl:border-gray-800">
-                <h1 class="mb-3 font-serif text-5xl font-semibold">Server</h1>
-                <BOutputBlock label="Encrypted" :value="encrypted" />
-                <BOutput label="Decrypted" :value="decrypted" />
-                <BOutput label="As a String" :value="outMsg" />
-            </div>
-        </VSection>
-    </HSection>
-    <HSection class="h-full">
-        <VSection />
-    </HSection>
+    <div
+        class="container mx-auto my-24 grid border border-zinc-400 xl:grid-cols-2 dark:border-zinc-700"
+    >
+        <div class="grid gap-4 border-b border-zinc-200 p-12 xl:border-none dark:border-zinc-700">
+            <h1 class="mb-3 font-serif text-5xl font-semibold">Client</h1>
+            <BField id="message" label="Message" v-model="message" />
+            <BOutput label="As a Number" :value="inNum" />
+            <BOutputBlock label="Encrypted" :value="encrypted" />
+        </div>
+        <div class="grid gap-4 p-12 xl:border-l xl:border-zinc-400 dark:xl:border-zinc-700">
+            <h1 class="mb-3 font-serif text-5xl font-semibold">Server</h1>
+            <BOutputBlock label="Encrypted" :value="encrypted" />
+            <BOutput label="Decrypted" :value="decrypted" />
+            <BOutput label="As a String" :value="outMsg" />
+        </div>
+    </div>
 </template>
